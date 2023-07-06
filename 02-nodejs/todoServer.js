@@ -77,6 +77,18 @@ app.post('/todos',(req,res)=>{
 
 })
 
+app.put('/todos/:id',(req,res)=>{
+  var idc=req.params.id
+  var todoitem = todos.findIndex(todo=>todo.id===parseInt(idc))
+  if(todoitem==-1){
+    res.status(404).send()
+  }else{
+    todos[todoitem].title = req.body.title
+    todos[todoitem].description = req.body.description
+    res.send(todos[todoitem])
+  }
+
+})
 
 
 app.listen(port,()=>{
