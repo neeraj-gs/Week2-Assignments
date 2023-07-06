@@ -41,9 +41,31 @@
  */
 const express = require('express');
 const bodyParser = require('body-parser');
+const port = 3000;
 
 const app = express();
 
+
 app.use(bodyParser.json());
+
+var todos = [];
+var id_c=0;
+
+app.post('/todos',(req,res)=>{
+  id_c += 1;
+  var todo = {
+    id: id_c,
+    title:req.body.title,
+    description:req.body.description
+  }
+  todos.push(todo);
+  res.status(201).send(todo)
+})
+
+
+
+app.listen(port,()=>{
+  console.log(`App listening on port:${port}`);
+})
 
 module.exports = app;
