@@ -55,6 +55,16 @@ app.get('/todos',(req,res)=>{
   res.status(200).send(todos)
 })
 
+app.get('/todos/:id',(req,res)=>{
+  var idc = req.params.id
+  var gettodo = todos.find(todo=>todo.id===parseInt(idc));
+  if(gettodo){
+    res.status(200).send(gettodo);
+  }else{
+    res.status(404)
+  }
+})
+
 app.post('/todos',(req,res)=>{
   id_c += 1;
   var todo = {
