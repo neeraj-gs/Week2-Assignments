@@ -51,6 +51,10 @@ app.use(bodyParser.json());
 var todos = [];
 var id_c=0;
 
+app.get('/todos',(req,res)=>{
+  res.status(200).send(todos)
+})
+
 app.post('/todos',(req,res)=>{
   id_c += 1;
   var todo = {
@@ -60,7 +64,7 @@ app.post('/todos',(req,res)=>{
   }
   todos.push(todo);
   res.status(201).send(todo)
-  
+
 })
 
 
