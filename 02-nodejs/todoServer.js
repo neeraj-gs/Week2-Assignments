@@ -90,6 +90,17 @@ app.put('/todos/:id',(req,res)=>{
 
 })
 
+app.delete('/todos/:id',(req,res)=>{
+  var todoitem = todos.findIndex(todo=>todo.id === parseInt(req.params.id))
+  if(todoitem===-1){
+    res.status(404).send()
+  }
+  else{
+    todos.splice(todoitem,1)
+    res.status(200).send()
+  }
+})
+
 
 app.listen(port,()=>{
   console.log(`App listening on port:${port}`);
