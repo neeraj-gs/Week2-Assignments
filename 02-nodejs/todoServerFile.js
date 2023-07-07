@@ -39,3 +39,32 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
+
+const express = require('express');
+const fs = require('fs');
+const bodyParser = require('body-parser');
+const port = 3000;
+
+const app = express();
+
+app.use(bodyParser.json());
+
+//using json format to store data and send data is better as it is easy to parse and do operations on
+//arrays are also consodereed a part of json along with objects
+app.get('/todos',(req,res)=>{
+    fs.readFile("todos.json","utf-8",(err,data)=>{
+        if(err){
+            throw err;
+        }else{
+            res.status(200).send(JSON.parse(data))
+        }
+    })
+})
+
+
+app.listen(port,()=>{
+    console.log(`App listening on Port:${port}`)
+})
+
+
+
