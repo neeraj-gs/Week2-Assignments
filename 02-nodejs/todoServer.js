@@ -42,11 +42,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const port = 3000;
+const path = require('path')
+const cors = require('cors');
 
 const app = express();
 
 
 app.use(bodyParser.json());
+app.use(cors())
 
 var todos = [];
 var id_c=0;
@@ -99,6 +102,12 @@ app.delete('/todos/:id',(req,res)=>{
     todos.splice(todoitem,1)
     res.status(200).send()
   }
+})
+
+
+//1st MOTHORD TO RESOLVE ERRRO FROM FETCHING BY GVING FRONTEND ALSO SAME URL AS BACKEND
+app.get('/',(req,res)=>{
+  res.sendFile(path.join(__dirname+"/index.html"))
 })
 
 
