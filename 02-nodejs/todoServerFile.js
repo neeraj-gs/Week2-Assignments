@@ -48,6 +48,7 @@ const port = 3000;
 const app = express();
 
 app.use(bodyParser.json());
+var id_c = 0;
 
 //using json format to store data and send data is better as it is easy to parse and do operations on
 //arrays are also consodereed a part of json along with objects
@@ -61,6 +62,26 @@ app.get('/todos',(req,res)=>{
     })
 })
 
+
+app.post('/todos',(req,res)=>{
+    id_c +=1;
+    var todo = {
+        id: id_c,
+        title:req.body.tile,
+        description:req.body.description
+    }
+    fs.readFile("todos.json","utf-8",(err,data)=>{
+        if(err) throw err;
+        
+        const todos = JSON.parse(data);
+        todos.push(todo);
+        
+        fs.writeFile("todos.json",JSON.stringify(todos),(err,data)=>{
+            if(err) throw err;
+            res.status(201).send(todo);
+        })
+    })
+})
 
 app.listen(port,()=>{
     console.log(`App listening on Port:${port}`)
