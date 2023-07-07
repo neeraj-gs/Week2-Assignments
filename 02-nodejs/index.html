@@ -1,44 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>
-        TODO app
-    </title>
+    <title>TODO app</title>
 </head>
 <script>
-
+    function deleteTodo(id) {
+        console.log(id);
+        fetch(`http://localhost:3000/todos/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+            .then(() => {
+                console.log("Done Delete");
+                var element = document.getElementById(`data-${id}`);
+                if (element) {
+                    element.remove();
+                }
+            });
+    }
 
     function getData() {
         fetch("http://localhost:3000/todos", {
             method: "GET",
-        }).then((resp)=>{
-            resp.json().then((data)=>{
-                var parentElement = document.getElementById("mainArea");
-        // parentElement.innerHTML = JSON.stringify(data);
-        for (var i = 0; i<data.length; i++) {
-            var childElement = document.createElement("div");
-
-            var grandChildElement1 = document.createElement("span");
-            grandChildElement1.innerHTML = data[i].title
-
-            var grandChildElement2 = document.createElement("span");
-            grandChildElement2.innerHTML = data[i].description
-
-            var grandChildElement3 = document.createElement("button");
-            grandChildElement3.innerHTML = "Delete"
-
-            childElement.appendChild(grandChildElement1)
-            childElement.appendChild(grandChildElement2)
-            childElement.appendChild(grandChildElement3)
-
-            parentElement.appendChild(childElement);
-        }
-            });
         })
+            .then(resp => resp.json())
+            .then(data => {
+                var parentElement = document.getElementById("mainArea");
+                parentElement.innerHTML = "";
+
+                for (var i = 0; i < data.length; i++) {
+                    var childElement = document.createElement("div");
+                    childElement.setAttribute("id", `data-${data[i].id}`); //jsut like title adn desciption is set we need ot also set the id as that is also a part of object , but need not be dispalyed
+
+                    var grandChildElement1 = document.createElement("span");
+                    grandChildElement1.innerHTML = data[i].title;
+
+                    var grandChildElement2 = document.createElement("span");
+                    grandChildElement2.innerHTML = data[i].description;
+
+                    var grandChildElement3 = document.createElement("button");
+                    grandChildElement3.innerHTML = "Delete";
+                    grandChildElement3.setAttribute("onclick", `deleteTodo(${data[i].id})`); //calling teh functino with id passed as argument
+
+                    childElement.appendChild(grandChildElement1);
+                    childElement.appendChild(grandChildElement2);
+                    childElement.appendChild(grandChildElement3);
+
+                    parentElement.appendChild(childElement);
+                }
+            });
     }
 
     getData();
-
-
-
 
     function onPress() {
         var title = document.getElementById("title1").value;
@@ -53,40 +68,45 @@
             headers: {
                 "Content-Type": "application/json"
             }
-        }).then((resp)=>{
-            resp.json().then((data)=>{
-                console.log(data);
-        var parentElement = document.getElementById("mainArea");
-        var childElement = document.createElement("div");
-
-        var grandChildElement1 = document.createElement("span");
-        grandChildElement1.innerHTML = data.title
-
-        var grandChildElement2 = document.createElement("span");
-        grandChildElement2.innerHTML = data.description
-
-        var grandChildElement3 = document.createElement("button");
-        grandChildElement3.innerHTML = "Delete"
-
-        childElement.appendChild(grandChildElement1)
-        childElement.appendChild(grandChildElement2)
-        childElement.appendChild(grandChildElement3)
-
-        parentElement.appendChild(childElement);
-            });
         })
+            .then(resp => resp.json())
+            .then(data => {
+                console.log(data);
+                var parentElement = document.getElementById("mainArea"); //we always add the code here also because we need website to be dynamci adn make it more responsive
+                var childElement = document.createElement("div");
+                childElement.setAttribute("id", `data-${data.id}`);
+
+                var grandChildElement1 = document.createElement("span");
+                grandChildElement1.innerHTML = data.title;
+
+                var grandChildElement2 = document.createElement("span");
+                grandChildElement2.innerHTML = data.description;
+
+                var grandChildElement3 = document.createElement("button");
+                grandChildElement3.innerHTML = "Delete";
+                grandChildElement3.setAttribute("onclick", `deleteTodo(${data.id})`);
+
+                childElement.appendChild(grandChildElement1);
+                childElement.appendChild(grandChildElement2);
+                childElement.appendChild(grandChildElement3);
+
+                parentElement.appendChild(childElement);
+            });
     }
 </script>
-
 <body>
-    Todo title
-    <input type="text" id="title1"></input>
-    <br><br>
-    Todo description
-    <input type="text" id="description"></input>
-    <br><br>
-    <button onclick="onPress()">send todo</button>
-    <div id="mainArea">
-
+    <h1>TODO App</h1>
+    <div>
+        Todo title
+        <input type="text" id="title1">
     </div>
+    <br><br>
+    <div>
+        Todo description
+        <input type="text" id="description">
+    </div>
+    <br><br>
+    <button onclick="onPress()">Send Todo</button>
+    <div id="mainArea"></div>
 </body>
+</html>
