@@ -133,7 +133,7 @@ app.delete('/todos/:id',(req,res)=>{
             fs.writeFile("todos.json",JSON.stringify(todos),(err)=>{
                 if(err) throw err;
 
-                res.status(200).send()
+                res.status(200).send(todos)
             })
         }
 
