@@ -6,10 +6,14 @@
     <title>Todo App</title>
 </head>
 <script>
+
+
+
+
     function onPress(){
         var title = document.getElementById("title").value;
         var description = document.getElementById("description").value;
-        
+
         fetch("http://localhost:3000/todos",{
             method:"POST",
             body:JSON.stringify({
