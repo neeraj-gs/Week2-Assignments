@@ -63,6 +63,19 @@ app.get('/todos',(req,res)=>{
 })
 
 
+app.get('/todos/:id', (req, res) => {
+    fs.readFile("todos.json", "utf8", (err, data) => {
+      if (err) throw err;
+      const todos = JSON.parse(data);
+      const todo = todos.find(todo => todo.id === parseInt(req.params.id));
+      if (todo) {
+        res.status(201).send(todo);
+      } else {
+        res.status(404).send();
+      }
+    });
+  });
+
 app.post('/todos',(req,res)=>{
     id_c +=1;
     var todo = {
@@ -82,6 +95,9 @@ app.post('/todos',(req,res)=>{
         })
     })
 })
+
+
+
 
 app.listen(port,()=>{
     console.log(`App listening on Port:${port}`)
