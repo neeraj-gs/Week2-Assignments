@@ -80,7 +80,7 @@ app.post('/todos',(req,res)=>{
     id_c +=1;
     var todo = {
         id: id_c,
-        title:req.body.tile,
+        title:req.body.title,
         description:req.body.description
     }
     fs.readFile("todos.json","utf-8",(err,data)=>{
@@ -93,6 +93,29 @@ app.post('/todos',(req,res)=>{
             if(err) throw err;
             res.status(201).send(todo);
         })
+    })
+})
+
+
+app.put('/todos/:id',(req,res)=>{
+    fs.readFile("todos.json","utf-8",(err,data)=>{
+        if(err) throw err;
+        const todos = JSON.parse(data);
+        var index = todos.findIndex(todo=>todo.id === parseInt(req.params.id))
+        if(index==-1){
+            res.status(404).send()
+        }else{
+            var todo = {
+                id :todos[index].id,
+                title:req.body.title,
+                description:req.body.description
+            }
+            todos[index] = todo
+            fs.writeFile("todos.json",JSON.stringify(todos),(err)=>{
+                if(err) throw err;
+                res.status(200).send(todo)
+            })
+        }
     })
 })
 
