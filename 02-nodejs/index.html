@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo App</title>
+</head>
+<script>
+    function onPress(){
+        var title = document.getElementById("title").value;
+        var description = document.getElementById("description").value;
+        
+        fetch("http://localhost:3000/todos",{
+            method:"POST",
+            body:JSON.stringify({
+                title:title,
+                description:description
+            }),
+            headers:{
+                "Content-Type":"apllication/json"
+            }
+        }).then((resp)=>{
+            resp.json((data)=>{
+                console.log(data)
+            })
+        })
+    }
+</script>
+<body>
+    TodoTitle
+    <input type="text" id="title"></input>
+    <br>
+    TodoDescription
+    <input type="text" id="description"></input>
+    <br>
+    <button onclick="onPress()">Send Todo</button>
+</body>
+</html>
