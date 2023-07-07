@@ -12,7 +12,29 @@
             method:"GET"
         }).then((resp)=>{
             resp.json().then((data)=>{
-                console.log(data)
+                var parentEle = document.getElementById("mainArea");
+                // parentEle.innerHTML = JSON.stringify(data);
+
+                for(var i=0;i<data.length;i++){
+                    var divv = document.createElement("div");
+                    var title = document.createElement("span")
+                    title.innerHTML = data[i].title
+
+                    var des = document.createElement("span")
+                    des.innerHTML = data[i].description
+
+                    var del = document.createElement("button")
+                    del.innerHTML = "Delete"
+
+                    divv.appendChild(title)
+                    divv.appendChild(des)
+                    divv.appendChild(del)
+
+                    parentEle.appendChild(divv);
+
+
+                }
+
             })
         })
     }
@@ -30,7 +52,7 @@
                 description:description
             }),
             headers:{
-                "Content-Type":"apllication/json"
+                "Content-Type":"application/json"
             }
         }).then((resp)=>{
             resp.json((data)=>{
@@ -47,5 +69,8 @@
     <input type="text" id="description"></input>
     <br>
     <button onclick="onPress()">Send Todo</button>
+    <div id="mainArea">
+        
+    </div>
 </body>
 </html>
