@@ -120,6 +120,25 @@ app.put('/todos/:id',(req,res)=>{
 })
 
 
+app.delete('/todos/:id',(req,res)=>{
+    fs.readFile("todos.json","utf-8",(err,data)=>{
+        if(err) throw err;
+
+        const todos = JSON.parse(data);
+        index = todos.findIndex(todo => todo.id === parseInt(req.params.id))
+        if(index==-1){
+            res.status(404).send();
+        }else{
+            todos.splice(index,1);
+            fs.writeFile("todos.json",JSON.stringify(todos),(err)=>{
+                if(err) throw err;
+
+                res.status(200).send()
+            })
+        }
+
+    })
+})
 
 
 app.listen(port,()=>{
