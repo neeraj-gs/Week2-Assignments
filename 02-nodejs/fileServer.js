@@ -22,6 +22,15 @@ const path = require('path');
 const app = express();
 const port = 3000;
 
+app.get('/files',(req,res)=>{
+  fs.readdir(path.join(__dirname+"/solutions"),(err,files)=>{
+    if(err){
+      res.status(404).send()
+    }
+    res.status(200).json(files)
+  })
+})
+
 
 // module.exports = app;
 
