@@ -32,6 +32,32 @@
 const express = require("express")
 const PORT = 3000;
 const app = express();
+const port = 3000;
 // write your logic here, DONT WRITE app.listen(3000) when you're running tests, the tests will automatically start the server
 
 module.exports = app;
+
+const users = [];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+app.listen(port,()=>{
+  console.log(`App is listening on port:${port}`);
+})
+
+
+
+
