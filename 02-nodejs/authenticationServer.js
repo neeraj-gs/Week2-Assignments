@@ -43,6 +43,35 @@ const users = [];
 var id_c = 0;
 
 
+//any one of the user pasword and email is verified then all teh uesrs are dispalyed
+app.get("/data", (req, res) => {
+  var email = req.headers.email;
+  var password = req.headers.password;
+  let userFound = false;
+  for (var i = 0; i<users.length; i++) {
+    if (users[i].email === email && users[i].password === password) {
+        userFound = true;
+        break;
+    }
+  }
+
+  if (userFound) {
+    let usersToReturn = [];
+    for (let i = 0; i<users.length; i++) {
+        usersToReturn.push({
+            firstName: users[i].firstName,
+            lastName: users[i].lastName,
+            email: users[i].email
+        });
+    }
+    res.json({
+        users
+    });
+  } else {
+    res.sendStatus(401);
+  }
+});
+
 
 app.post('/signup',(req,res)=>{
   id_c+=1;
@@ -79,6 +108,7 @@ app.post("/login", (req, res) => {
 
   if (userFound) {
     res.json({
+        id:userFound.id,
         firstName: userFound.firstname,
         lastName: userFound.lastname,
         email: userFound.email
