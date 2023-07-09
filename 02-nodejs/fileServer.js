@@ -45,6 +45,12 @@ app.get('/files/:filename',(req,res)=>{
 })
 
 
+//specifies all other routes which are not defined
+app.all('*', (req, res) => {
+  res.status(404).send('Route not found');
+});
+
+
 // module.exports = app;
 
 app.listen(port,()=>{
