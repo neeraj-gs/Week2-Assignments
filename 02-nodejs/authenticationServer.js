@@ -30,7 +30,7 @@
  */
 
 const express = require("express")
-const PORT = 3000;
+// const PORT = 3000;
 const app = express();
 const port = 3000;
 const bodyParser = require('body-parser');
@@ -42,6 +42,8 @@ app.use(bodyParser.json());
 const users = [];
 var id_c = 0;
 
+
+
 app.post('/signup',(req,res)=>{
   id_c+=1;
   var user = {
@@ -49,7 +51,8 @@ app.post('/signup',(req,res)=>{
     username:req.body.username,
     password:req.body.password,
     firstname:req.body.firstname,
-    lastname:req.body.lastname
+    lastname:req.body.lastname,
+    email:req.body.email
 
   }
   var exist = users.find(user=>user.username === req.body.username)
@@ -64,7 +67,26 @@ app.post('/signup',(req,res)=>{
 
 
 
+app.post("/login", (req, res) => {
+  var user = req.body;
+  let userFound = null;
+  for (var i = 0; i<users.length; i++) {
+    if (users[i].email === user.email && users[i].password === user.password) {
+        userFound = users[i];
+        break;
+    }
+  }
 
+  if (userFound) {
+    res.json({
+        firstName: userFound.firstname,
+        lastName: userFound.lastname,
+        email: userFound.email
+    });
+  } else {
+    res.sendStatus(401);
+  }
+});
 
 
 
