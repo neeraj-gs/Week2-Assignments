@@ -23,11 +23,24 @@ const app = express();
 const port = 3000;
 
 app.get('/files',(req,res)=>{
-  fs.readdir(path.join(__dirname+"/solutions"),(err,files)=>{
+  fs.readdir(path.join(__dirname+"/files"),(err,files)=>{
     if(err){
-      res.status(404).send()
+      res.status(404).send(`No Such Folder Exists`)
     }
     res.status(200).json(files)
+  })
+})
+
+
+app.get('/files/:filename',(req,res)=>{
+  const pathi = path.join(__dirname + "/files/"+req.params.filename)
+  fs.readFile(pathi,"utf-8",(err,data)=>{
+    if(err){
+      res.status(404).send(`File Not Found`)
+    }
+    else{
+      res.status(200).send(data)
+    }
   })
 })
 
